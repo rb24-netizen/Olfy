@@ -1,0 +1,112 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#081713">
+  <title>Olfy · Discover a scent</title>
+  <link rel="icon" type="image/svg+xml" href="/icon.svg">
+  <link rel="stylesheet" href="/scan.css">
+  <script type="module" src="/scan.js"></script>
+</head>
+<body>
+  <div class="app-shell">
+    <header class="topbar">
+      <a class="wordmark" href="/" aria-label="Olfy home">olfy<span>.</span></a>
+      <div class="top-actions">
+        <span class="prototype-tag">PROTOTYPE</span>
+        <button class="icon-button" id="settings-button" aria-label="Sensor settings">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M4 7h16M4 17h16M8 4v6M16 14v6" stroke="currentColor" stroke-width="1.7" stroke-linecap="round"/></svg>
+        </button>
+      </div>
+    </header>
+
+    <main class="scan-page">
+      <div class="intro">
+        <p class="eyebrow">FOLLOW YOUR CURIOSITY</p>
+        <h1 id="headline">What’s that scent?</h1>
+        <p class="subtitle" id="subtitle">Tap the circle to explore a demo.</p>
+      </div>
+
+      <div class="orb-stage" id="orb-stage">
+        <div class="orbit orbit-outer" aria-hidden="true"></div>
+        <div class="orbit orbit-inner" aria-hidden="true"></div>
+        <span class="orbit-spark spark-one" aria-hidden="true"></span>
+        <span class="orbit-spark spark-two" aria-hidden="true"></span>
+        <button class="scan-orb" id="scan-button" aria-label="Explore a demo scan" disabled>
+          <svg class="scent-mark" viewBox="0 0 120 120" fill="none" aria-hidden="true">
+            <path d="M83 25a42 42 0 1 0 13 61"/>
+            <path d="M84 46a25 25 0 1 0-13 38"/>
+            <path d="M96 35a42 42 0 0 1 4 37"/>
+          </svg>
+          <span class="orb-working" aria-hidden="true"></span>
+        </button>
+      </div>
+
+      <div class="scan-caption" aria-live="polite">
+        <h2 id="scan-label">Tap to discover</h2>
+        <p id="scan-hint">One circle. A new discovery.</p>
+      </div>
+      <button class="connection-pill" id="connection-button">
+        <span class="status-dot" id="status-dot"></span>
+        <span id="connection-label">Demo mode</span>
+        <svg viewBox="0 0 16 16" fill="none" aria-hidden="true"><path d="m6 4 4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg>
+      </button>
+      <p class="mode-note" id="mode-note">Generated signals. No perfume measured.</p>
+      <button class="text-button abort-button" id="abort-button" hidden>Cancel this scan</button>
+      <p class="message" id="message" role="status" hidden></p>
+    </main>
+
+    <footer class="bottom-bar">
+      <nav class="bottom-nav" aria-label="Main navigation">
+        <a class="nav-item active" href="/" aria-current="page">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><circle cx="12" cy="12" r="7" stroke="currentColor" stroke-width="1.6"/><circle cx="12" cy="12" r="2.2" fill="currentColor"/></svg><span>Discover</span>
+        </a>
+        <button class="nav-item" id="saved-button">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M7 4.5h10v15l-5-3-5 3v-15Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/></svg><span>Saved</span>
+        </button>
+        <a class="nav-item" href="/lab">
+          <svg viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M9 4h6M10 4v6l-5.2 8.3A1.7 1.7 0 0 0 6.2 21h11.6a1.7 1.7 0 0 0 1.4-2.7L14 10V4M8 15h8" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg><span>Lab</span>
+        </a>
+      </nav>
+      <span class="footer-note">A LITTLE CURIOSITY GOES A LONG WAY.</span>
+    </footer>
+  </div>
+
+  <dialog id="settings-dialog" class="sheet">
+    <div class="sheet-header"><div><p class="eyebrow">YOUR OLFY</p><h2>Sensor settings</h2></div><button class="icon-button close-dialog" aria-label="Close settings">×</button></div>
+    <div class="mode-switch" role="group" aria-label="Signal source">
+      <button id="demo-mode" class="selected">Demo</button><button id="real-mode">Real sensor</button>
+    </div>
+    <p class="sheet-copy" id="settings-copy">Demo uses artificial reference scans to test the app. It does not identify a real fragrance.</p>
+    <div id="real-settings" hidden>
+      <label class="field-label" for="adapter-select">Connection</label>
+      <select id="adapter-select"><option value="bme688">BME688 · USB bridge</option><option value="serial">USB serial · Olfy protocol</option></select>
+      <label class="field-label serial-field" for="serial-port" hidden>Serial port</label>
+      <input class="serial-field" id="serial-port" placeholder="auto" value="auto" hidden>
+      <div class="button-row"><button class="primary-button" id="connect-button">Connect sensor</button><button class="secondary-button" id="disconnect-button" disabled>Disconnect</button></div>
+      <p class="device-detail" id="device-detail">No sensor connected.</p>
+      <label class="warmup-check"><input type="checkbox" id="warmup-check"><span>I’ve conditioned and warmed up the sensor in clean air.</span></label>
+      <p class="sheet-copy">Once connected and warmed up, tapping the circle records for 10 seconds and saves automatically. The USB prototype keeps the sensor warm between captures. Waking a future wireless accessory from sleep will require its firmware. Set up reference fragrances and the longer testing protocol in <a href="/lab">Lab</a>.</p>
+    </div>
+    <p class="sheet-message" id="settings-message" role="status" hidden></p>
+  </dialog>
+
+  <dialog id="result-dialog" class="sheet result-sheet">
+    <div class="sheet-header"><p class="eyebrow" id="result-eyebrow">DEMO RESULT</p><button class="icon-button close-dialog" aria-label="Close result">×</button></div>
+    <div class="result-symbol" aria-hidden="true">o<span>.</span></div>
+    <h2 id="result-title">Scan result</h2>
+    <p class="sheet-copy" id="result-copy"></p>
+    <p class="result-note" id="result-note"></p>
+    <button class="primary-button" id="result-done">Back to discover</button>
+    <a class="subtle-link" href="/lab">View signals in Lab</a>
+  </dialog>
+
+  <dialog id="saved-dialog" class="sheet">
+    <div class="sheet-header"><div><p class="eyebrow" id="saved-eyebrow">DEMO WORKSPACE</p><h2>Your scans</h2></div><button class="icon-button close-dialog" aria-label="Close saved scans">×</button></div>
+    <p class="sheet-copy">Saved captures and completed reference scans from this workspace. Labels are collection metadata.</p>
+    <div class="saved-list" id="saved-list"></div>
+    <a class="subtle-link" href="/lab">Open the full dataset in Lab</a>
+  </dialog>
+</body>
+</html>

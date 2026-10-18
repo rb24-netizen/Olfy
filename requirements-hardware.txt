@@ -1,0 +1,5 @@
+-r requirements.txt
+adafruit-blinka>=8,<9
+adafruit-circuitpython-bme680==3.7.16
+hidapi>=0.14,<1
+pyserial==3.5

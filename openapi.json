@@ -1,0 +1,1314 @@
+{
+  "openapi": "3.0.3",
+  "info": {
+    "title": "Olfy local integration API",
+    "version": "1.4.0",
+    "description": "Local, single-user research API. Fetch /api/v1/state to obtain csrf_token for writes. Browser apps on another origin need an explicit --allow-origin. Scores are provisional; synthetic data does not prove perfume recognition."
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "paths": {
+    "/api/v1/state": {
+      "get": {
+        "operationId": "get_state",
+        "summary": "Get workspace, model and token for writes",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "mode",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "simulation",
+                "real"
+              ],
+              "default": "simulation"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/status": {
+      "get": {
+        "operationId": "get_status",
+        "summary": "Get connection and current recording status",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/api/v1/adapters": {
+      "get": {
+        "operationId": "get_adapters",
+        "summary": "List adapters, serial ports and USB bridges",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/api/v1/catalogue": {
+      "get": {
+        "operationId": "get_catalogue",
+        "summary": "Get sourced reference identities, measurement progress and sensor definitions",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "description": "Optional fragrance_id to include its recorded fingerprints.",
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/catalogue/export": {
+      "get": {
+        "operationId": "get_catalogue_export",
+        "summary": "Download the committed reference catalogue SQLite database",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/vnd.sqlite3": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/api/v1/scan": {
+      "get": {
+        "operationId": "get_scan",
+        "summary": "Get a recorded scan",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "mode",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "simulation",
+                "real"
+              ],
+              "default": "simulation"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/export": {
+      "get": {
+        "operationId": "get_export",
+        "summary": "Download raw CSV",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "mode",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "simulation",
+                "real"
+              ],
+              "default": "simulation"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/schema": {
+      "get": {
+        "operationId": "get_schema",
+        "summary": "Get this OpenAPI document",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/api/v1/catalogue/samples": {
+      "get": {
+        "operationId": "get_catalogue_samples",
+        "summary": "Get the raw sensor samples behind an indexed perfume fingerprint",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/readiness": {
+      "get": {
+        "operationId": "get_readiness",
+        "summary": "Get compatible sensor cohorts, per-label collection coverage and candidate test days",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "mode",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "simulation",
+                "real"
+              ],
+              "default": "simulation"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/backup": {
+      "get": {
+        "operationId": "get_backup",
+        "summary": "Download a complete data backup when no scan is active",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "application/zip": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/api/v1/health": {
+      "get": {
+        "operationId": "get_health",
+        "summary": "Get software capabilities and connection status; not proof of hardware accuracy",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/api/v1/model-runs": {
+      "get": {
+        "operationId": "get_model-runs",
+        "summary": "List preserved training runs and evaluations",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "mode",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "simulation",
+                "real"
+              ],
+              "default": "simulation"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/model-run": {
+      "get": {
+        "operationId": "get_model-run",
+        "summary": "Get one immutable model and its dataset digest",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        },
+        "parameters": [
+          {
+            "in": "query",
+            "name": "mode",
+            "schema": {
+              "type": "string",
+              "enum": [
+                "simulation",
+                "real"
+              ],
+              "default": "simulation"
+            }
+          },
+          {
+            "in": "query",
+            "name": "id",
+            "required": true,
+            "schema": {
+              "type": "string"
+            }
+          }
+        ]
+      }
+    },
+    "/api/v1/setup": {
+      "get": {
+        "operationId": "get_setup",
+        "summary": "Check local software, storage and optional drivers without connecting a sensor",
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/api/v1/plan": {
+      "post": {
+        "operationId": "post_plan",
+        "summary": "Save the experiment plan; no sensor readings are created",
+        "security": [
+          {
+            "LocalToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Plan"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request or unavailable sensor"
+          },
+          "403": {
+            "description": "Invalid token or origin"
+          }
+        }
+      }
+    },
+    "/api/v1/plan/export": {
+      "get": {
+        "operationId": "get_plan_export",
+        "summary": "Download the planned collection checklist CSV",
+        "responses": {
+          "200": {
+            "description": "Success",
+            "content": {
+              "text/csv": {
+                "schema": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Invalid request"
+          }
+        }
+      }
+    },
+    "/api/v1/connect": {
+      "post": {
+        "operationId": "post_connect",
+        "summary": "Connect and validate the first reading",
+        "security": [
+          {
+            "LocalToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Connect"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request or unavailable sensor"
+          },
+          "403": {
+            "description": "Invalid token or origin"
+          }
+        }
+      }
+    },
+    "/api/v1/disconnect": {
+      "post": {
+        "operationId": "post_disconnect",
+        "summary": "Disconnect when no recording is active",
+        "security": [
+          {
+            "LocalToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "simulation",
+                      "real"
+                    ],
+                    "default": "simulation"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request or unavailable sensor"
+          },
+          "403": {
+            "description": "Invalid token or origin"
+          }
+        }
+      }
+    },
+    "/api/v1/start": {
+      "post": {
+        "operationId": "post_start",
+        "summary": "Start baseline recording",
+        "security": [
+          {
+            "LocalToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartScan"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request or unavailable sensor"
+          },
+          "403": {
+            "description": "Invalid token or origin"
+          }
+        }
+      }
+    },
+    "/api/v1/capture": {
+      "post": {
+        "operationId": "post_capture",
+        "summary": "Capture raw real-sensor readings for 10 seconds by default, then save automatically; not a reference scan or perfume identification",
+        "security": [
+          {
+            "LocalToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/StartCapture"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request or unavailable sensor"
+          },
+          "403": {
+            "description": "Invalid token or origin"
+          }
+        }
+      }
+    },
+    "/api/v1/phase": {
+      "post": {
+        "operationId": "post_phase",
+        "summary": "Advance the specified scan to its next phase",
+        "security": [
+          {
+            "LocalToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request or unavailable sensor"
+          },
+          "403": {
+            "description": "Invalid token or origin"
+          }
+        }
+      }
+    },
+    "/api/v1/finish": {
+      "post": {
+        "operationId": "post_finish",
+        "summary": "Finish the specified scan",
+        "security": [
+          {
+            "LocalToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request or unavailable sensor"
+          },
+          "403": {
+            "description": "Invalid token or origin"
+          }
+        }
+      }
+    },
+    "/api/v1/abort": {
+      "post": {
+        "operationId": "post_abort",
+        "summary": "Abort the specified scan and preserve readings",
+        "security": [
+          {
+            "LocalToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScanCommand"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request or unavailable sensor"
+          },
+          "403": {
+            "description": "Invalid token or origin"
+          }
+        }
+      }
+    },
+    "/api/v1/train": {
+      "post": {
+        "operationId": "post_train",
+        "summary": "Train using a held-out collection group",
+        "security": [
+          {
+            "LocalToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Train"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request or unavailable sensor"
+          },
+          "403": {
+            "description": "Invalid token or origin"
+          }
+        }
+      }
+    },
+    "/api/v1/bookmark": {
+      "post": {
+        "operationId": "post_bookmark",
+        "summary": "Save or remove a completed recording from the durable collection",
+        "security": [
+          {
+            "LocalToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Bookmark"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request or unavailable sensor"
+          },
+          "403": {
+            "description": "Invalid token or origin"
+          }
+        }
+      }
+    },
+    "/api/v1/predict": {
+      "post": {
+        "operationId": "post_predict",
+        "summary": "Predict an unseen completed scan",
+        "security": [
+          {
+            "LocalToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Predict"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request or unavailable sensor"
+          },
+          "403": {
+            "description": "Invalid token or origin"
+          }
+        }
+      }
+    },
+    "/api/v1/seed": {
+      "post": {
+        "operationId": "post_seed",
+        "summary": "Create synthetic examples in simulation only",
+        "security": [
+          {
+            "LocalToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "mode": {
+                    "type": "string",
+                    "enum": [
+                      "simulation",
+                      "real"
+                    ],
+                    "default": "simulation"
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request or unavailable sensor"
+          },
+          "403": {
+            "description": "Invalid token or origin"
+          }
+        }
+      }
+    },
+    "/api/v1/practice": {
+      "post": {
+        "operationId": "post_practice",
+        "summary": "Exercise the full software pipeline in a disposable generated dataset; existing recordings and models are untouched",
+        "security": [
+          {
+            "LocalToken": []
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/Practice"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Success"
+          },
+          "400": {
+            "description": "Invalid request or unavailable sensor"
+          },
+          "403": {
+            "description": "Invalid token or origin"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "Error": {
+        "type": "object",
+        "required": [
+          "error",
+          "code"
+        ],
+        "properties": {
+          "error": {
+            "type": "string"
+          },
+          "code": {
+            "type": "string"
+          }
+        }
+      },
+      "Reading": {
+        "type": "object",
+        "required": [
+          "gas_ohm",
+          "schema_version"
+        ],
+        "properties": {
+          "gas_ohm": {
+            "type": "number",
+            "description": "Unit: ohm",
+            "minimum": 0,
+            "exclusiveMinimum": true
+          },
+          "temperature_c": {
+            "type": "number",
+            "description": "Unit: degC"
+          },
+          "humidity_pct": {
+            "type": "number",
+            "description": "Unit: %RH"
+          },
+          "pressure_hpa": {
+            "type": "number",
+            "description": "Unit: hPa"
+          },
+          "heater_c": {
+            "type": "number",
+            "description": "Unit: degC"
+          },
+          "heater_ms": {
+            "type": "number",
+            "description": "Unit: ms"
+          },
+          "schema_version": {
+            "type": "integer",
+            "enum": [
+              1
+            ]
+          },
+          "source_sequence": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "extra_channels": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          }
+        }
+      },
+      "FirmwarePacket": {
+        "type": "object",
+        "required": [
+          "type",
+          "schema_version",
+          "device_id",
+          "profile",
+          "gas_ohm",
+          "source_sequence"
+        ],
+        "properties": {
+          "gas_ohm": {
+            "type": "number",
+            "description": "Unit: ohm",
+            "minimum": 0,
+            "exclusiveMinimum": true
+          },
+          "temperature_c": {
+            "type": "number",
+            "description": "Unit: degC"
+          },
+          "humidity_pct": {
+            "type": "number",
+            "description": "Unit: %RH"
+          },
+          "pressure_hpa": {
+            "type": "number",
+            "description": "Unit: hPa"
+          },
+          "heater_c": {
+            "type": "number",
+            "description": "Unit: degC"
+          },
+          "heater_ms": {
+            "type": "number",
+            "description": "Unit: ms"
+          },
+          "schema_version": {
+            "type": "integer",
+            "enum": [
+              1
+            ]
+          },
+          "source_sequence": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "extra_channels": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "number"
+            }
+          },
+          "type": {
+            "type": "string",
+            "enum": [
+              "olfy.sample"
+            ]
+          },
+          "device_id": {
+            "type": "string"
+          },
+          "profile": {
+            "type": "string"
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "real",
+              "simulation"
+            ]
+          },
+          "units": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            }
+          }
+        }
+      },
+      "StartScan": {
+        "type": "object",
+        "required": [
+          "group_id"
+        ],
+        "anyOf": [
+          {
+            "required": [
+              "label"
+            ]
+          },
+          {
+            "required": [
+              "fragrance_id"
+            ]
+          }
+        ],
+        "properties": {
+          "fragrance_id": {
+            "type": "string",
+            "maxLength": 120,
+            "description": "Optional reference catalogue ID. Real known reference scans only; the server fills the canonical label. Not accepted for simulation or quick captures."
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "group_id": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "bottle_id": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "sample_id": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "device_id": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "substrate": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "dose": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "simulation",
+              "real"
+            ],
+            "default": "simulation"
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "known",
+              "unknown",
+              "blank"
+            ],
+            "default": "known"
+          },
+          "drydown_min": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10080
+          },
+          "warmup_ack": {
+            "type": "boolean"
+          }
+        }
+      },
+      "StartCapture": {
+        "type": "object",
+        "required": [
+          "mode",
+          "label",
+          "group_id",
+          "bottle_id",
+          "warmup_ack"
+        ],
+        "properties": {
+          "fragrance_id": {
+            "type": "string",
+            "maxLength": 120,
+            "description": "Optional reference catalogue ID. Real known reference scans only; the server fills the canonical label. Not accepted for simulation or quick captures."
+          },
+          "label": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "group_id": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "bottle_id": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "sample_id": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "device_id": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "substrate": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "dose": {
+            "type": "string",
+            "maxLength": 120
+          },
+          "notes": {
+            "type": "string",
+            "maxLength": 1000
+          },
+          "mode": {
+            "type": "string",
+            "enum": [
+              "real"
+            ]
+          },
+          "kind": {
+            "type": "string",
+            "enum": [
+              "known",
+              "unknown",
+              "blank"
+            ],
+            "default": "known"
+          },
+          "drydown_min": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10080
+          },
+          "warmup_ack": {
+            "type": "boolean"
+          },
+          "duration_s": {
+            "type": "number",
+            "minimum": 5,
+            "maximum": 60,
+            "default": 10
+          }
+        }
+      },
+      "ScanCommand": {
+        "type": "object",
+        "required": [
+          "mode",
+          "scan_id"
+        ],
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "simulation",
+              "real"
+            ],
+            "default": "simulation"
+          },
+          "scan_id": {
+            "type": "string"
+          }
+        }
+      },
+      "Connect": {
+        "type": "object",
+        "required": [
+          "mode"
+        ],
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "real"
+            ]
+          },
+          "adapter_id": {
+            "type": "string",
+            "default": "bme688"
+          },
+          "config": {
+            "type": "object"
+          }
+        }
+      },
+      "Train": {
+        "type": "object",
+        "required": [
+          "heldout_group"
+        ],
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "simulation",
+              "real"
+            ],
+            "default": "simulation"
+          },
+          "heldout_group": {
+            "type": "string"
+          },
+          "profile_key": {
+            "type": "string",
+            "nullable": true,
+            "description": "Optional compatible sensor cohort from readiness."
+          }
+        }
+      },
+      "Bookmark": {
+        "type": "object",
+        "required": [
+          "scan_id"
+        ],
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "simulation",
+              "real"
+            ],
+            "default": "simulation"
+          },
+          "scan_id": {
+            "type": "string"
+          },
+          "saved": {
+            "type": "boolean",
+            "default": true
+          }
+        }
+      },
+      "Predict": {
+        "type": "object",
+        "required": [
+          "scan_id"
+        ],
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "simulation",
+              "real"
+            ],
+            "default": "simulation"
+          },
+          "scan_id": {
+            "type": "string"
+          }
+        }
+      },
+      "Plan": {
+        "type": "object",
+        "required": [
+          "fragrance_ids",
+          "substrate",
+          "dose",
+          "drydown_min",
+          "start_date"
+        ],
+        "additionalProperties": false,
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "simulation",
+              "real"
+            ],
+            "default": "simulation"
+          },
+          "fragrance_ids": {
+            "type": "array",
+            "minItems": 2,
+            "maxItems": 5,
+            "uniqueItems": true,
+            "items": {
+              "type": "string"
+            }
+          },
+          "substrate": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "dose": {
+            "type": "string",
+            "minLength": 1,
+            "maxLength": 120
+          },
+          "drydown_min": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 10080
+          },
+          "include_unknown_control": {
+            "type": "boolean",
+            "default": false,
+            "description": "Add an unfamiliar perfume control each day; without this, unfamiliar-perfume rejection remains untested."
+          },
+          "start_date": {
+            "type": "string",
+            "format": "date"
+          }
+        }
+      },
+      "Practice": {
+        "type": "object",
+        "properties": {
+          "mode": {
+            "type": "string",
+            "enum": [
+              "simulation"
+            ]
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "LocalToken": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "X-Olfy-Token"
+      }
+    }
+  }
+}

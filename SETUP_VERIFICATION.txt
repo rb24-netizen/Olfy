@@ -1,0 +1,54 @@
+OLFY 1.1 - PREPARATION UPDATE
+
+Start with Start_Here.html, then double-click Start_Olfy.command.
+No Markdown reader, Node installation, account or API key is required.
+Python 3.11-3.13 and internet for initial dependency installation are required.
+
+WHAT WAS ADDED
+- Connected setup screen at /setup: software/storage/database checks,
+  reference counts, driver-package status and troubleshooting.
+- Disposable generated-data practice: storage, 12 features, held-out training,
+  known/unknown predictions, saved bookmark and backup/restore.
+- A saved first experiment plan for 2-5 exact catalogue variants. Two perfumes
+  you already own or can borrow are sufficient to begin. There is no requirement
+  to buy 50 fragrances. An unfamiliar-perfume control is optional.
+- Planned sample checklist CSV and Lab autofill. The form uses today's actual
+  local collection date, a fresh sample ID, and requires the actual bottle ID.
+- Experiment plans included in complete backups; old datasets migrate in place.
+- Dependency-only preparation, diagnostics, safer repeat launching and clearer
+  failures. Start_Here.html also works offline.
+
+VALIDATION
+- Existing automated suite: 41 tests passed.
+- New preparation regression suite: 9 tests passed.
+- TypeScript checking and production consumer frontend build passed.
+- JavaScript and Bash syntax checks passed.
+- Browser checks: desktop 1440px; responsive setup at 390x844, 360x780 and
+  768x1000; no horizontal overflow. Tested full practice, unchanged real/demo
+  workspaces, saved plan persistence after reload, exact-ID Lab autofill,
+  actual collection date, connected consumer demo and saved bookmark.
+- Offline Start Here guide checked in a browser.
+- Launcher checks: path containing spaces, cached dependency preparation,
+  opening the backend, reusing only the same port/data folder, diagnostics
+  while running, graceful stop, and preservation of the saved plan.
+- Installed-wheel check: setup HTML/CSS/JS, schema and compiled consumer assets.
+- Plan backup/restore and migration checks use temporary datasets. No generated
+  fixtures or fabricated measured perfume fingerprints are shipped.
+
+WHAT STILL NEEDS YOUR HARDWARE
+These checks ran in the execution environment, not on a physical M1 Mac or
+an iPhone. Native macOS/Safari behavior, driver installation on your Mac,
+BME688/USB behavior, signal repeatability and real perfume accuracy still need
+on-device verification. No sensor was connected for these checks.
+
+The catalogue starts with 50 identities and zero measured references.
+The current 10-second consumer scan saves raw data. The reference classifier
+uses full baseline/exposure/recovery recordings. A validated fast recognition
+model, wireless transport/wake firmware and a compact phone accessory are
+separate milestones.
+
+DATA AND SIGNALS
+For the supported BME688 path the primary measured signal is resistance (ohm).
+Temperature, relative humidity and pressure are also retained; timestamps and
+heater configuration travel with the readings. The app does not reconstruct
+molecular recipes or claim a universal ohm value for any perfume.

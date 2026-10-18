@@ -1,0 +1,24 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "olfy-starter"
+version = "1.1.0"
+description = "Local perfume-sensor research workbench with interchangeable adapters"
+readme = "README.md"
+requires-python = ">=3.11,<3.14"
+dependencies = ["numpy==2.3.5", "scikit-learn==1.8.0"]
+
+[project.optional-dependencies]
+hardware = ["adafruit-blinka>=8,<9", "adafruit-circuitpython-bme680==3.7.16", "hidapi>=0.14,<1", "pyserial==3.5"]
+serial = ["pyserial==3.5"]
+
+[project.scripts]
+olfy = "olfy.__main__:main"
+
+[tool.setuptools.packages.find]
+include = ["olfy*"]
+
+[tool.setuptools.package-data]
+olfy = ["*.json", "*.sql", "web/*.html", "web/*.js", "web/*.css", "web/*.svg", "web/consumer/*", "web/consumer/assets/*", "web/consumer/font-licenses/*"]
